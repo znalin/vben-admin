@@ -1,3 +1,10 @@
+<!--
+ * @Descripttion: 
+ * @Author: znalin
+ * @Date: 2022-08-29 11:24:46
+ * @LastEditors: znalin
+ * @LastEditTime: 2022-08-29 18:07:33
+-->
 <template>
   <Drawer
     v-if="getIsMobile"

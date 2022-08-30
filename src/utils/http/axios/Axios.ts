@@ -12,7 +12,7 @@ import { RequestEnum } from '/@/enums/httpEnum';
 export * from './axiosTransform';
 
 /**
- * @description:  axios module
+ * @description:  axios模块
  */
 export class VAxios {
   private axiosInstance: AxiosInstance;
@@ -25,7 +25,7 @@ export class VAxios {
   }
 
   /**
-   * @description:  Create axios instance
+   * @description:   创建axios实例
    */
   private createAxios(config: CreateAxiosOptions): void {
     this.axiosInstance = axios.create(config);
@@ -41,7 +41,7 @@ export class VAxios {
   }
 
   /**
-   * @description: Reconfigure axios
+   * @description: 重新配置axios
    */
   configAxios(config: CreateAxiosOptions) {
     if (!this.axiosInstance) {
@@ -51,7 +51,7 @@ export class VAxios {
   }
 
   /**
-   * @description: Set general header
+   * @description: 设置通用header
    */
   setHeader(headers: any): void {
     if (!this.axiosInstance) {
@@ -61,7 +61,7 @@ export class VAxios {
   }
 
   /**
-   * @description: Interceptor configuration
+   * @description: 拦截器配置
    */
   private setupInterceptors() {
     const transform = this.getTransform();
@@ -77,7 +77,7 @@ export class VAxios {
 
     const axiosCanceler = new AxiosCanceler();
 
-    // Request interceptor configuration processing
+    // 请求拦截器配置处理
     this.axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => {
       // If cancel repeat request is turned on, then cancel repeat request is prohibited
       const {
@@ -91,18 +91,19 @@ export class VAxios {
           : this.options.requestOptions?.ignoreCancelToken;
 
       !ignoreCancel && axiosCanceler.addPending(config);
+      //重复请求取消
       if (requestInterceptors && isFunction(requestInterceptors)) {
         config = requestInterceptors(config, this.options);
       }
       return config;
     }, undefined);
 
-    // Request interceptor error capture
+    // 请求拦截器错误捕获
     requestInterceptorsCatch &&
       isFunction(requestInterceptorsCatch) &&
       this.axiosInstance.interceptors.request.use(undefined, requestInterceptorsCatch);
 
-    // Response result interceptor processing
+    // 响应结果拦截器处理
     this.axiosInstance.interceptors.response.use((res: AxiosResponse<any>) => {
       res && axiosCanceler.removePending(res.config);
       if (responseInterceptors && isFunction(responseInterceptors)) {
@@ -111,14 +112,14 @@ export class VAxios {
       return res;
     }, undefined);
 
-    // Response result interceptor error capture
+    // 响应结果拦截器错误捕获
     responseInterceptorsCatch &&
       isFunction(responseInterceptorsCatch) &&
       this.axiosInstance.interceptors.response.use(undefined, responseInterceptorsCatch);
   }
 
   /**
-   * @description:  File Upload
+   * @description:  文件上传
    */
   uploadFile<T = any>(config: AxiosRequestConfig, params: UploadFileParams) {
     const formData = new window.FormData();
@@ -190,7 +191,9 @@ export class VAxios {
   delete<T = any>(config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
     return this.request({ ...config, method: 'DELETE' }, options);
   }
-
+  /**
+   * @description:   请求方法
+   */
   request<T = any>(config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
     let conf: CreateAxiosOptions = cloneDeep(config);
     const transform = this.getTransform();
@@ -211,6 +214,7 @@ export class VAxios {
       this.axiosInstance
         .request<any, AxiosResponse<Result>>(conf)
         .then((res: AxiosResponse<Result>) => {
+          // 请求是否被取消
           if (transformRequestHook && isFunction(transformRequestHook)) {
             try {
               const ret = transformRequestHook(res, opt);

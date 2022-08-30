@@ -15,19 +15,19 @@ import { createParamMenuGuard } from './paramMenuGuard';
 
 // Don't change the order of creation
 export function setupRouterGuard(router: Router) {
-  createPageGuard(router);
-  createPageLoadingGuard(router);
-  createHttpGuard(router);
-  createScrollGuard(router);
-  createMessageGuard(router);
-  createProgressGuard(router);
-  createPermissionGuard(router);
-  createParamMenuGuard(router); // must after createPermissionGuard (menu has been built.)
-  createStateGuard(router);
+  createPageGuard(router); // 处理页面状态
+  createPageLoadingGuard(router); // 处理页面加载状态
+  createHttpGuard(router); // 路由切换时关闭当前页面完成请求
+  createScrollGuard(router); // 路由切换回到顶部
+  createMessageGuard(router); // 路由切换时关闭消息实例
+  createProgressGuard(router); // 页面顶部进度条
+  createPermissionGuard(router); // 路由切换时权限验证
+  createParamMenuGuard(router); // 菜单守卫
+  createStateGuard(router); // 系统状态守卫- 当用户未登录时，进入登录页面并清除存储中的认证信息
 }
 
 /**
- * Hooks for handling page state
+ * 处理页面状态
  */
 function createPageGuard(router: Router) {
   const loadedPageMap = new Map<string, boolean>();
@@ -46,7 +46,7 @@ function createPageGuard(router: Router) {
   });
 }
 
-// Used to handle page loading status
+// 处理页面加载状态
 function createPageLoadingGuard(router: Router) {
   const userStore = useUserStoreWithOut();
   const appStore = useAppStoreWithOut();
@@ -79,7 +79,7 @@ function createPageLoadingGuard(router: Router) {
 }
 
 /**
- * The interface used to close the current page to complete the request when the route is switched
+ * 路由切换时关闭当前页面完成请求
  * @param router
  */
 function createHttpGuard(router: Router) {
@@ -95,7 +95,7 @@ function createHttpGuard(router: Router) {
   });
 }
 
-// Routing switch back to the top
+// 路由切换回到顶部
 function createScrollGuard(router: Router) {
   const isHash = (href: string) => {
     return /^#/.test(href);
@@ -111,7 +111,7 @@ function createScrollGuard(router: Router) {
 }
 
 /**
- * Used to close the message instance when the route is switched
+ * 路由切换时关闭消息实例
  * @param router
  */
 export function createMessageGuard(router: Router) {
@@ -129,7 +129,7 @@ export function createMessageGuard(router: Router) {
     return true;
   });
 }
-
+// 页面顶部进度条
 export function createProgressGuard(router: Router) {
   const { getOpenNProgress } = useTransitionSetting();
   router.beforeEach(async (to) => {

@@ -1,3 +1,10 @@
+/*
+ * @Descripttion:
+ * @Author: znalin
+ * @Date: 2022-08-29 11:24:47
+ * @LastEditors: znalin
+ * @LastEditTime: 2022-08-29 12:10:03
+ */
 import type { ErrorMessageMode } from '/#/axios';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { useI18n } from '/@/hooks/web/useI18n';
@@ -24,9 +31,9 @@ export function checkStatus(
     case 400:
       errMessage = `${msg}`;
       break;
-    // 401: Not logged in
-    // Jump to the login page if not logged in, and carry the path of the current page
-    // Return to the current page after successful login. This step needs to be operated on the login page.
+    // 401: 未登录
+    // 未登录则跳转登录页面，并携带当前页面的路径
+    // 在登录成功后返回当前页面，这一步需要在登录页操作。
     case 401:
       userStore.setToken(undefined);
       errMessage = msg || t('sys.api.errMsg401');

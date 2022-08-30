@@ -18,7 +18,7 @@ import { isArray } from '/@/utils/is';
 import { h } from 'vue';
 
 interface UserState {
-  userInfo: Nullable<UserInfo>;
+  userInfo: Nullable<UserInfo>; // 用户信息
   token?: string;
   roleList: RoleEnum[];
   sessionTimeout?: boolean;
@@ -80,7 +80,7 @@ export const useUserStore = defineStore({
       this.sessionTimeout = false;
     },
     /**
-     * @description: login
+     * @description: 登录
      */
     async login(
       params: LoginParams & {
@@ -90,19 +90,20 @@ export const useUserStore = defineStore({
     ): Promise<GetUserInfoModel | null> {
       try {
         const { goHome = true, mode, ...loginParams } = params;
+        // 1、调用登录接口
         const data = await loginApi(loginParams, mode);
         const { token } = data;
-
-        // save token
+        // 2、设置 token，并存储本地缓存。
         this.setToken(token);
         return this.afterLoginAction(goHome);
       } catch (error) {
         return Promise.reject(error);
       }
     },
+
     async afterLoginAction(goHome?: boolean): Promise<GetUserInfoModel | null> {
       if (!this.getToken) return null;
-      // get user info
+      // 3、获取用户信息
       const userInfo = await this.getUserInfoAction();
 
       const sessionTimeout = this.sessionTimeout;
@@ -111,6 +112,7 @@ export const useUserStore = defineStore({
       } else {
         const permissionStore = usePermissionStore();
         if (!permissionStore.isDynamicAddedRoute) {
+          // 4、获取路由配置并动态添加路由配置
           const routes = await permissionStore.buildRoutesAction();
           routes.forEach((route) => {
             router.addRoute(route as unknown as RouteRecordRaw);
@@ -128,16 +130,18 @@ export const useUserStore = defineStore({
       const { roles = [] } = userInfo;
       if (isArray(roles)) {
         const roleList = roles.map((item) => item.value) as RoleEnum[];
+        // 设置权限列表，并存储本地缓存
         this.setRoleList(roleList);
       } else {
         userInfo.roles = [];
         this.setRoleList([]);
       }
+      // 设置用户信息，并存储本地缓存
       this.setUserInfo(userInfo);
       return userInfo;
     },
     /**
-     * @description: logout
+     * @description: 退出
      */
     async logout(goLogin = false) {
       if (this.getToken) {

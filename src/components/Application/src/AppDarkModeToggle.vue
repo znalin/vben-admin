@@ -1,3 +1,10 @@
+<!--
+ * @Descripttion: 项目配置--主题
+ * @Author: znalin
+ * @Date: 2022-08-29 11:24:44
+ * @LastEditors: znalin
+ * @LastEditTime: 2022-08-29 17:26:42
+-->
 <template>
   <div v-if="getShowDarkModeToggle" :class="getClass" @click="toggleDarkMode">
     <div :class="`${prefixCls}-inner`"></div>

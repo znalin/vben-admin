@@ -1,6 +1,9 @@
 <!--
- * @Author: Vben
- * @Description: logo component
+ * @Descripttion: 左侧side图标
+ * @Author: znalin
+ * @Date: 2022-08-29 11:24:44
+ * @LastEditors: znalin
+ * @LastEditTime: 2022-08-29 17:28:19
 -->
 <template>
   <div class="anticon" :class="getAppLogoClass" @click="goHome">

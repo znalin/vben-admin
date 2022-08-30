@@ -1,5 +1,9 @@
-/**
- * Application configuration
+/*
+ * @Descripttion:
+ * @Author: znalin
+ * @Date: 2022-08-29 11:24:46
+ * @LastEditors: znalin
+ * @LastEditTime: 2022-08-29 18:44:28
  */
 import type { ProjectConfig } from '/#/config';
 
@@ -24,8 +28,9 @@ import { ThemeEnum } from '/@/enums/appEnum';
 
 // Initial project configuration
 export function initAppConfigStore() {
-  const localeStore = useLocaleStore();
-  const appStore = useAppStore();
+  const localeStore = useLocaleStore(); // 多语言国际化
+  const appStore = useAppStore(); // 应用状态(主题风格、项目配置、页面加载、页面状态等等)
+  // 项目配置 (主题颜色、主题模式、顶栏配置、菜单配置)
   let projCfg: ProjectConfig = Persistent.getLocal(PROJ_CFG_KEY) as ProjectConfig;
   projCfg = deepMerge(projectSetting, projCfg || {});
   const darkMode = appStore.getDarkMode;
@@ -47,9 +52,10 @@ export function initAppConfigStore() {
   } catch (error) {
     console.log(error);
   }
+  // 存储项目配置
   appStore.setProjectConfig(projCfg);
 
-  // init dark mode
+  // 初始化暗黑模式
   updateDarkTheme(darkMode);
   if (darkMode === ThemeEnum.DARK) {
     updateHeaderBgColor();
@@ -58,9 +64,9 @@ export function initAppConfigStore() {
     headerBgColor && updateHeaderBgColor(headerBgColor);
     bgColor && updateSidebarBgColor(bgColor);
   }
-  // init store
+  //  初始化国际化多语言
   localeStore.initLocale();
-
+  // 清理过期的缓存
   setTimeout(() => {
     clearObsoleteStorage();
   }, 16);

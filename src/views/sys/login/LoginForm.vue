@@ -134,6 +134,7 @@
     if (!data) return;
     try {
       loading.value = true;
+      // 点击登录获取用户信息，存储使用的 pinia 实现。
       const userInfo = await userStore.login({
         password: data.password,
         username: data.account,

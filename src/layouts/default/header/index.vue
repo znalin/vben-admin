@@ -2,13 +2,14 @@
   <Header :class="getHeaderClass">
     <!-- left start -->
     <div :class="`${prefixCls}-left`">
-      <!-- logo -->
+      <!-- 左侧栏图标 -->
       <AppLogo
         v-if="getShowHeaderLogo || getIsMobile"
         :class="`${prefixCls}-logo`"
         :theme="getHeaderTheme"
         :style="getLogoWidth"
       />
+
       <LayoutTrigger
         v-if="
           (getShowContent && getShowHeaderTrigger && !getSplit && !getIsMixSidebar) || getIsMobile

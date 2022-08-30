@@ -1,3 +1,10 @@
+/*
+ * @Descripttion:
+ * @Author: znalin
+ * @Date: 2022-08-29 11:24:46
+ * @LastEditors: znalin
+ * @LastEditTime: 2022-08-30 09:08:53
+ */
 import type { RouteRecordRaw } from 'vue-router';
 import type { App } from 'vue';
 
@@ -13,7 +20,7 @@ const getRouteNames = (array: any[]) =>
   });
 getRouteNames(basicRoutes);
 
-// app router
+// 创建路由实例
 export const router = createRouter({
   history: createWebHashHistory(import.meta.env.VITE_PUBLIC_PATH),
   routes: basicRoutes as unknown as RouteRecordRaw[],
@@ -21,7 +28,6 @@ export const router = createRouter({
   scrollBehavior: () => ({ left: 0, top: 0 }),
 });
 
-// reset router
 export function resetRouter() {
   router.getRoutes().forEach((route) => {
     const { name } = route;
@@ -31,7 +37,7 @@ export function resetRouter() {
   });
 }
 
-// config router
+// 注册路由
 export function setupRouter(app: App<Element>) {
   app.use(router);
 }
