@@ -3,7 +3,7 @@
  * @Author: znalin
  * @Date: 2022-08-29 11:24:47
  * @LastEditors: znalin
- * @LastEditTime: 2022-08-30 13:42:49
+ * @LastEditTime: 2022-08-30 14:09:01
  */
 import type { UserInfo } from '/#/store';
 import type { ErrorMessageMode } from '/#/axios';
@@ -23,7 +23,6 @@ import { RouteRecordRaw } from 'vue-router';
 import { PAGE_NOT_FOUND_ROUTE } from '/@/router/routes/basic';
 import { isArray } from '/@/utils/is';
 import { h } from 'vue';
-import { Console } from 'console';
 
 interface UserState {
   userInfo: Nullable<UserInfo>; // 用户信息

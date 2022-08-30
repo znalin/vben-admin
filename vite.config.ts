@@ -53,11 +53,16 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       ],
     },
     server: {
-      // Listening on all local IPs
       host: true,
-      port: VITE_PORT,
-      // Load proxy configuration from .env
-      proxy: createProxy(VITE_PROXY),
+      port: VITE_PORT as unknown as number,
+      proxy: {
+        '/api': {
+          // target: 'http://192.168.8.146:8888',
+          // target: 'http://192.168.7.201:8889',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ''),
+        },
+      },
     },
     build: {
       target: 'es2015',
@@ -74,8 +79,6 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       chunkSizeWarningLimit: 2000,
     },
     define: {
-      // setting vue-i18-next
-      // Suppress warning
       __INTLIFY_PROD_DEVTOOLS__: false,
       __APP_INFO__: JSON.stringify(__APP_INFO__),
     },

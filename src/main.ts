@@ -3,7 +3,7 @@
  * @Author: znalin
  * @Date: 2022-08-26 14:43:29
  * @LastEditors: znalin
- * @LastEditTime: 2022-08-29 18:37:35
+ * @LastEditTime: 2022-08-30 14:11:18
  */
 import '/@/design/index.less';
 import 'virtual:windi-base.css';
@@ -28,7 +28,9 @@ import { setupGlobDirectives } from '/@/directives';
 import { setupI18n } from '/@/locales/setupI18n';
 // 注册全局组件
 import { registerGlobComp } from '/@/components/registerGlobComp';
-
+if (import.meta.env.DEV) {
+  import('ant-design-vue/dist/antd.less');
+}
 // 项目的初始化配置
 async function bootstrap() {
   // 创建应用实例
