@@ -1,3 +1,10 @@
+/*
+ * @Descripttion: 系统锁屏
+ * @Author: znalin
+ * @Date: 2022-08-29 11:24:47
+ * @LastEditors: znalin
+ * @LastEditTime: 2022-08-30 10:09:57
+ */
 import type { LockInfo } from '/#/store';
 
 import { defineStore } from 'pinia';

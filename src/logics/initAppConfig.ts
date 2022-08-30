@@ -1,9 +1,9 @@
 /*
- * @Descripttion:
+ * @Descripttion:初始化内部系统配置
  * @Author: znalin
  * @Date: 2022-08-29 11:24:46
  * @LastEditors: znalin
- * @LastEditTime: 2022-08-29 18:44:28
+ * @LastEditTime: 2022-08-30 10:31:59
  */
 import type { ProjectConfig } from '/#/config';
 
